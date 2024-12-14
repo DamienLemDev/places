@@ -1,0 +1,14 @@
+datasource db {
+  provider = "postgresql"  // Utilise PostgreSQL, tu peux aussi utiliser MySQL ou SQLite
+  url      = env("DATABASE_URL")  // L'URL de connexion à ta base de données
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Place {
+  id        Int     @id @default(autoincrement())
+  latitude  Float
+  longitude Float
+}
