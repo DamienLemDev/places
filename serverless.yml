@@ -1,0 +1,34 @@
+service: backend-places  # Nom de ton service
+
+provider:
+  name: aws
+  runtime: nodejs18.x  # Spécifie la version de Node.js
+  region: eu-west-3  # Choisir la région AWS que tu veux
+  environment:
+    DATABASE_URL: ${env:DATABASE_URL}
+
+functions:
+  places:
+    handler: dist/index.handler  # Le handler de la fonction Lambda (index.js et handler exporté)
+    events:
+      - http:
+          path: places
+          method: get  # Pour la route GET /places
+      - http:
+          path: places
+          method: post  # Pour la route POST /places
+      - http:
+          path: test-db
+          method: get  # Pour la route POST /places
+    vpc:
+      securityGroupIds:
+        - sg-0335f2d60ce1230f0  # ID du groupe de sécurité associé à votre RDS
+      subnetIds:
+        - subnet-043546361a20f21c2  # ID des sous-réseaux dans lesquels votre Lambda doit être déployée
+        - subnet-073555d09ec665ca3
+        - subnet-0e59444da0dd72508
+
+package:
+  individually: true
+  exclude:
+    - node_modules/aws-sdk/**  # Exclure aws-sdk (déjà inclus dans l'environnement Lambda)
