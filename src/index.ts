@@ -28,7 +28,7 @@ app.get('/places', async (req: Request, res: Response) => {
     const places = await prisma.place.findMany();
     res.json(places);
   } catch (error) {
-    res.status(500).json({ error: 'Erreur du serveur' });
+    res.status(500).json({ error: 'Erreur du serveur', details: error });
   }
 });
 
@@ -50,7 +50,7 @@ app.post('/places', async (req: Request, res: Response) => {
     });
     res.status(201).json(newPlace);
   } catch (error) {
-    res.status(500).json({ error: 'Erreur lors de l\'ajout de la place' });
+    res.status(500).json({ error: 'Erreur lors de l\'ajout de la place', details: error  });
   }
 });
 

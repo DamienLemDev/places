@@ -29,7 +29,7 @@ app.get('/places', async (req, res) => {
         res.json(places);
     }
     catch (error) {
-        res.status(500).json({ error: 'Erreur du serveur' });
+        res.status(500).json({ error: 'Erreur du serveur', details: error });
     }
 });
 // Route pour ajouter une nouvelle place
@@ -49,7 +49,7 @@ app.post('/places', async (req, res) => {
         res.status(201).json(newPlace);
     }
     catch (error) {
-        res.status(500).json({ error: 'Erreur lors de l\'ajout de la place' });
+        res.status(500).json({ error: 'Erreur lors de l\'ajout de la place', details: error });
     }
 });
 app.get('/test-db', async (req, res) => {

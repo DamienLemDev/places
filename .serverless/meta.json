@@ -128,7 +128,7 @@
                     "Properties": {
                       "Code": {
                         "S3Bucket": "serverless-framework-deployments-eu-west-3-53368366-3b03",
-                        "S3Key": "serverless/backend-places/dev/1734279360639-2024-12-15T16:16:00.639Z/places.zip"
+                        "S3Key": "serverless/backend-places/dev/1734281334361-2024-12-15T16:48:54.361Z/places.zip"
                       },
                       "Handler": "dist/index.handler",
                       "Runtime": "nodejs18.x",
@@ -161,14 +161,14 @@
                       "PlacesLogGroup"
                     ]
                   },
-                  "PlacesLambdaVersionlxNYzgFn1uysTGLMhFfp1wDAzAd41PqA46uJ5zlM6B8": {
+                  "PlacesLambdaVersionDewOOSv0RpyPpI60gXO9jSaXU59agbYW9JlMFYMK0": {
                     "Type": "AWS::Lambda::Version",
                     "DeletionPolicy": "Retain",
                     "Properties": {
                       "FunctionName": {
                         "Ref": "PlacesLambdaFunction"
                       },
-                      "CodeSha256": "o2mK2hC3vPmjof3qZpLkCUMtuvtziEWspihISvXtFFY="
+                      "CodeSha256": "iXFNnCru1AnMWsDEVqGcGFbaZwWCk7ATzNFLRNMmHoQ="
                     }
                   },
                   "ApiGatewayRestApi": {
@@ -351,7 +351,7 @@
                       "PlacesLambdaPermissionApiGateway"
                     ]
                   },
-                  "ApiGatewayDeployment1734279354137": {
+                  "ApiGatewayDeployment1734281327378": {
                     "Type": "AWS::ApiGateway::Deployment",
                     "Properties": {
                       "RestApiId": {
@@ -413,7 +413,7 @@
                   "PlacesLambdaFunctionQualifiedArn": {
                     "Description": "Current Lambda function version",
                     "Value": {
-                      "Ref": "PlacesLambdaVersionlxNYzgFn1uysTGLMhFfp1wDAzAd41PqA46uJ5zlM6B8"
+                      "Ref": "PlacesLambdaVersionDewOOSv0RpyPpI60gXO9jSaXU59agbYW9JlMFYMK0"
                     },
                     "Export": {
                       "Name": "sls-backend-places-dev-PlacesLambdaFunctionQualifiedArn"
@@ -492,7 +492,7 @@
                 "memory": 1024,
                 "timeout": 6,
                 "runtime": "nodejs18.x",
-                "versionLogicalId": "PlacesLambdaVersionlxNYzgFn1uysTGLMhFfp1wDAzAd41PqA46uJ5zlM6B8"
+                "versionLogicalId": "PlacesLambdaVersionDewOOSv0RpyPpI60gXO9jSaXU59agbYW9JlMFYMK0"
               }
             },
             "package": {
@@ -502,7 +502,7 @@
               ],
               "artifactsS3KeyDirname": "serverless/backend-places/dev/code-artifacts",
               "deploymentBucket": "serverless-framework-deployments-eu-west-3-53368366-3b03",
-              "artifactDirectoryName": "serverless/backend-places/dev/1734279360639-2024-12-15T16:16:00.639Z"
+              "artifactDirectoryName": "serverless/backend-places/dev/1734281334361-2024-12-15T16:48:54.361Z"
             }
           },
           "configFileDirPath": "/Users/damienlemenager/Desktop/backend-places",
@@ -642,7 +642,7 @@
                     "Properties": {
                       "Code": {
                         "S3Bucket": "serverless-framework-deployments-eu-west-3-53368366-3b03",
-                        "S3Key": "serverless/backend-places/dev/1734279360639-2024-12-15T16:16:00.639Z/places.zip"
+                        "S3Key": "serverless/backend-places/dev/1734281334361-2024-12-15T16:48:54.361Z/places.zip"
                       },
                       "Handler": "dist/index.handler",
                       "Runtime": "nodejs18.x",
@@ -675,14 +675,14 @@
                       "PlacesLogGroup"
                     ]
                   },
-                  "PlacesLambdaVersionlxNYzgFn1uysTGLMhFfp1wDAzAd41PqA46uJ5zlM6B8": {
+                  "PlacesLambdaVersionDewOOSv0RpyPpI60gXO9jSaXU59agbYW9JlMFYMK0": {
                     "Type": "AWS::Lambda::Version",
                     "DeletionPolicy": "Retain",
                     "Properties": {
                       "FunctionName": {
                         "Ref": "PlacesLambdaFunction"
                       },
-                      "CodeSha256": "o2mK2hC3vPmjof3qZpLkCUMtuvtziEWspihISvXtFFY="
+                      "CodeSha256": "iXFNnCru1AnMWsDEVqGcGFbaZwWCk7ATzNFLRNMmHoQ="
                     }
                   },
                   "ApiGatewayRestApi": {
@@ -865,7 +865,7 @@
                       "PlacesLambdaPermissionApiGateway"
                     ]
                   },
-                  "ApiGatewayDeployment1734279354137": {
+                  "ApiGatewayDeployment1734281327378": {
                     "Type": "AWS::ApiGateway::Deployment",
                     "Properties": {
                       "RestApiId": {
@@ -927,7 +927,7 @@
                   "PlacesLambdaFunctionQualifiedArn": {
                     "Description": "Current Lambda function version",
                     "Value": {
-                      "Ref": "PlacesLambdaVersionlxNYzgFn1uysTGLMhFfp1wDAzAd41PqA46uJ5zlM6B8"
+                      "Ref": "PlacesLambdaVersionDewOOSv0RpyPpI60gXO9jSaXU59agbYW9JlMFYMK0"
                     },
                     "Export": {
                       "Name": "sls-backend-places-dev-PlacesLambdaFunctionQualifiedArn"
@@ -1006,7 +1006,7 @@
                 "memory": 1024,
                 "timeout": 6,
                 "runtime": "nodejs18.x",
-                "versionLogicalId": "PlacesLambdaVersionlxNYzgFn1uysTGLMhFfp1wDAzAd41PqA46uJ5zlM6B8"
+                "versionLogicalId": "PlacesLambdaVersionDewOOSv0RpyPpI60gXO9jSaXU59agbYW9JlMFYMK0"
               }
             },
             "package": {
@@ -1016,7 +1016,7 @@
               ],
               "artifactsS3KeyDirname": "serverless/backend-places/dev/code-artifacts",
               "deploymentBucket": "serverless-framework-deployments-eu-west-3-53368366-3b03",
-              "artifactDirectoryName": "serverless/backend-places/dev/1734279360639-2024-12-15T16:16:00.639Z"
+              "artifactDirectoryName": "serverless/backend-places/dev/1734281334361-2024-12-15T16:48:54.361Z"
             }
           },
           "configFileDirPath": "/Users/damienlemenager/Desktop/backend-places",
@@ -1157,7 +1157,7 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "serverless-framework-deployments-eu-west-3-53368366-3b03",
-                  "S3Key": "serverless/backend-places/dev/1734279360639-2024-12-15T16:16:00.639Z/places.zip"
+                  "S3Key": "serverless/backend-places/dev/1734281334361-2024-12-15T16:48:54.361Z/places.zip"
                 },
                 "Handler": "dist/index.handler",
                 "Runtime": "nodejs18.x",
@@ -1190,14 +1190,14 @@
                 "PlacesLogGroup"
               ]
             },
-            "PlacesLambdaVersionlxNYzgFn1uysTGLMhFfp1wDAzAd41PqA46uJ5zlM6B8": {
+            "PlacesLambdaVersionDewOOSv0RpyPpI60gXO9jSaXU59agbYW9JlMFYMK0": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "PlacesLambdaFunction"
                 },
-                "CodeSha256": "o2mK2hC3vPmjof3qZpLkCUMtuvtziEWspihISvXtFFY="
+                "CodeSha256": "iXFNnCru1AnMWsDEVqGcGFbaZwWCk7ATzNFLRNMmHoQ="
               }
             },
             "ApiGatewayRestApi": {
@@ -1380,7 +1380,7 @@
                 "PlacesLambdaPermissionApiGateway"
               ]
             },
-            "ApiGatewayDeployment1734279354137": {
+            "ApiGatewayDeployment1734281327378": {
               "Type": "AWS::ApiGateway::Deployment",
               "Properties": {
                 "RestApiId": {
@@ -1442,7 +1442,7 @@
             "PlacesLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "PlacesLambdaVersionlxNYzgFn1uysTGLMhFfp1wDAzAd41PqA46uJ5zlM6B8"
+                "Ref": "PlacesLambdaVersionDewOOSv0RpyPpI60gXO9jSaXU59agbYW9JlMFYMK0"
               },
               "Export": {
                 "Name": "sls-backend-places-dev-PlacesLambdaFunctionQualifiedArn"
@@ -1521,7 +1521,7 @@
           "memory": 1024,
           "timeout": 6,
           "runtime": "nodejs18.x",
-          "versionLogicalId": "PlacesLambdaVersionlxNYzgFn1uysTGLMhFfp1wDAzAd41PqA46uJ5zlM6B8"
+          "versionLogicalId": "PlacesLambdaVersionDewOOSv0RpyPpI60gXO9jSaXU59agbYW9JlMFYMK0"
         }
       },
       "package": {
@@ -1531,7 +1531,7 @@
         ],
         "artifactsS3KeyDirname": "serverless/backend-places/dev/code-artifacts",
         "deploymentBucket": "serverless-framework-deployments-eu-west-3-53368366-3b03",
-        "artifactDirectoryName": "serverless/backend-places/dev/1734279360639-2024-12-15T16:16:00.639Z"
+        "artifactDirectoryName": "serverless/backend-places/dev/1734281334361-2024-12-15T16:48:54.361Z"
       }
     },
     "serviceRawFile": "service: backend-places  # Nom de ton service\n\nprovider:\n  name: aws\n  runtime: nodejs18.x  # Spécifie la version de Node.js\n  region: eu-west-3  # Choisir la région AWS que tu veux\n  environment:\n    DATABASE_URL: ${env:DATABASE_URL}\n\nfunctions:\n  places:\n    handler: dist/index.handler  # Le handler de la fonction Lambda (index.js et handler exporté)\n    events:\n      - http:\n          path: places\n          method: get  # Pour la route GET /places\n      - http:\n          path: places\n          method: post  # Pour la route POST /places\n      - http:\n          path: test-db\n          method: get  # Pour la route POST /places\n    vpc:\n      securityGroupIds:\n        - sg-0335f2d60ce1230f0  # ID du groupe de sécurité associé à votre RDS\n      subnetIds:\n        - subnet-043546361a20f21c2  # ID des sous-réseaux dans lesquels votre Lambda doit être déployée\n        - subnet-073555d09ec665ca3\n        - subnet-0e59444da0dd72508\n\npackage:\n  individually: true\n  exclude:\n    - node_modules/aws-sdk/**  # Exclure aws-sdk (déjà inclus dans l'environnement Lambda)\n",
@@ -1570,12 +1570,12 @@
     "serviceUniqueId": "arn:aws:cloudformation:eu-west-3:897729105435:stack/backend-places-dev/38c8ce30-bad1-11ef-82cc-0eaee090fc49",
     "serviceProviderAwsCfStackId": "arn:aws:cloudformation:eu-west-3:897729105435:stack/backend-places-dev/38c8ce30-bad1-11ef-82cc-0eaee090fc49",
     "serviceProviderAwsCfStackCreated": "2024-12-15T10:42:03.895Z",
-    "serviceProviderAwsCfStackUpdated": "2024-12-15T16:16:09.740Z",
+    "serviceProviderAwsCfStackUpdated": "2024-12-15T16:49:04.188Z",
     "serviceProviderAwsCfStackStatus": "UPDATE_COMPLETE",
     "serviceProviderAwsCfStackOutputs": [
       {
         "OutputKey": "PlacesLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:eu-west-3:897729105435:function:backend-places-dev-places:11",
+        "OutputValue": "arn:aws:lambda:eu-west-3:897729105435:function:backend-places-dev-places:13",
         "Description": "Current Lambda function version",
         "ExportName": "sls-backend-places-dev-PlacesLambdaFunctionQualifiedArn"
       },
