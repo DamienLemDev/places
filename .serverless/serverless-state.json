@@ -120,7 +120,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-eu-west-3-53368366-3b03",
-                "S3Key": "serverless/backend-places/dev/1734281334361-2024-12-15T16:48:54.361Z/places.zip"
+                "S3Key": "serverless/backend-places/dev/1734547312030-2024-12-18T18:41:52.030Z/places.zip"
               },
               "Handler": "dist/index.handler",
               "Runtime": "nodejs18.x",
@@ -153,14 +153,14 @@
               "PlacesLogGroup"
             ]
           },
-          "PlacesLambdaVersionDewOOSv0RpyPpI60gXO9jSaXU59agbYW9JlMFYMK0": {
+          "PlacesLambdaVersionjUoCR7aWMlOSoxeu4rLpWF4jkhkXKzWVEiHsj5D8": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "PlacesLambdaFunction"
               },
-              "CodeSha256": "iXFNnCru1AnMWsDEVqGcGFbaZwWCk7ATzNFLRNMmHoQ="
+              "CodeSha256": "c9FJqs4Jw7KOuC6ger7kfOCVWmw3hdY/oGVdfK4yuS0="
             }
           },
           "ApiGatewayRestApi": {
@@ -173,6 +173,21 @@
                 ]
               },
               "Policy": ""
+            }
+          },
+          "ApiGatewayResourceGenerateDashapiDashkey": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Fn::GetAtt": [
+                  "ApiGatewayRestApi",
+                  "RootResourceId"
+                ]
+              },
+              "PathPart": "generate-api-key",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
             }
           },
           "ApiGatewayResourcePlaces": {
@@ -204,6 +219,52 @@
                 "Ref": "ApiGatewayRestApi"
               }
             }
+          },
+          "ApiGatewayMethodGenerateDashapiDashkeyPost": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "POST",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceGenerateDashapiDashkey"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ApiKeyRequired": false,
+              "AuthorizationType": "NONE",
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "PlacesLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            },
+            "DependsOn": [
+              "PlacesLambdaPermissionApiGateway"
+            ]
           },
           "ApiGatewayMethodPlacesGet": {
             "Type": "AWS::ApiGateway::Method",
@@ -343,7 +404,7 @@
               "PlacesLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1734281327378": {
+          "ApiGatewayDeployment1734547304921": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -352,6 +413,7 @@
               "StageName": "dev"
             },
             "DependsOn": [
+              "ApiGatewayMethodGenerateDashapiDashkeyPost",
               "ApiGatewayMethodPlacesGet",
               "ApiGatewayMethodPlacesPost",
               "ApiGatewayMethodTestDashdbGet"
@@ -405,7 +467,7 @@
           "PlacesLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "PlacesLambdaVersionDewOOSv0RpyPpI60gXO9jSaXU59agbYW9JlMFYMK0"
+              "Ref": "PlacesLambdaVersionjUoCR7aWMlOSoxeu4rLpWF4jkhkXKzWVEiHsj5D8"
             },
             "Export": {
               "Name": "sls-backend-places-dev-PlacesLambdaFunctionQualifiedArn"
@@ -448,6 +510,13 @@
         "events": [
           {
             "http": {
+              "path": "generate-api-key",
+              "method": "post",
+              "integration": "AWS_PROXY"
+            }
+          },
+          {
+            "http": {
               "path": "places",
               "method": "get",
               "integration": "AWS_PROXY"
@@ -478,12 +547,12 @@
         },
         "name": "backend-places-dev-places",
         "package": {
-          "artifact": "/Users/damienlemenager/Desktop/backend-places/.serverless/places.zip"
+          "artifact": ".serverless/places.zip"
         },
         "memory": 1024,
         "timeout": 6,
         "runtime": "nodejs18.x",
-        "versionLogicalId": "PlacesLambdaVersionDewOOSv0RpyPpI60gXO9jSaXU59agbYW9JlMFYMK0"
+        "versionLogicalId": "PlacesLambdaVersionjUoCR7aWMlOSoxeu4rLpWF4jkhkXKzWVEiHsj5D8"
       }
     },
     "configValidationMode": "warn",
@@ -503,7 +572,7 @@
         ],
         "artifactsS3KeyDirname": "serverless/backend-places/dev/code-artifacts",
         "deploymentBucket": "serverless-framework-deployments-eu-west-3-53368366-3b03",
-        "artifactDirectoryName": "serverless/backend-places/dev/1734281334361-2024-12-15T16:48:54.361Z"
+        "artifactDirectoryName": "serverless/backend-places/dev/1734547312030-2024-12-18T18:41:52.030Z"
       }
     },
     "appId": null,
@@ -512,7 +581,7 @@
   },
   "package": {
     "individually": true,
-    "artifactDirectoryName": "serverless/backend-places/dev/1734281334361-2024-12-15T16:48:54.361Z",
+    "artifactDirectoryName": "serverless/backend-places/dev/1734547312030-2024-12-18T18:41:52.030Z",
     "artifact": ""
   }
 }

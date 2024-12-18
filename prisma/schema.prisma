@@ -12,4 +12,14 @@ model Place {
   id        Int   @id @default(autoincrement())
   latitude  Float
   longitude Float
+  createdAt DateTime @default(now())
+}
+
+model ApiKey {
+  id        Int      @id @default(autoincrement())
+  name      String
+  key       String   @unique
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+  updatedAt DateTime @updatedAt
 }

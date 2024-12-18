@@ -12,6 +12,9 @@ functions:
     handler: dist/index.handler  # Le handler de la fonction Lambda (index.js et handler exporté)
     events:
       - http:
+          path: generate-api-key
+          method: post
+      - http:
           path: places
           method: get  # Pour la route GET /places
       - http:

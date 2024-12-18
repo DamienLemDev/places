@@ -1,7 +1,7 @@
 {
   "/Users/damienlemenager/Desktop/backend-places": {
     "versionSfCore": null,
-    "versionFramework": "4.4.16",
+    "versionFramework": "4.4.18",
     "isWithinCompose": false,
     "isCompose": false,
     "composeOrgName": null,
@@ -128,7 +128,7 @@
                     "Properties": {
                       "Code": {
                         "S3Bucket": "serverless-framework-deployments-eu-west-3-53368366-3b03",
-                        "S3Key": "serverless/backend-places/dev/1734281334361-2024-12-15T16:48:54.361Z/places.zip"
+                        "S3Key": "serverless/backend-places/dev/1734547312030-2024-12-18T18:41:52.030Z/places.zip"
                       },
                       "Handler": "dist/index.handler",
                       "Runtime": "nodejs18.x",
@@ -161,14 +161,14 @@
                       "PlacesLogGroup"
                     ]
                   },
-                  "PlacesLambdaVersionDewOOSv0RpyPpI60gXO9jSaXU59agbYW9JlMFYMK0": {
+                  "PlacesLambdaVersionjUoCR7aWMlOSoxeu4rLpWF4jkhkXKzWVEiHsj5D8": {
                     "Type": "AWS::Lambda::Version",
                     "DeletionPolicy": "Retain",
                     "Properties": {
                       "FunctionName": {
                         "Ref": "PlacesLambdaFunction"
                       },
-                      "CodeSha256": "iXFNnCru1AnMWsDEVqGcGFbaZwWCk7ATzNFLRNMmHoQ="
+                      "CodeSha256": "c9FJqs4Jw7KOuC6ger7kfOCVWmw3hdY/oGVdfK4yuS0="
                     }
                   },
                   "ApiGatewayRestApi": {
@@ -181,6 +181,21 @@
                         ]
                       },
                       "Policy": ""
+                    }
+                  },
+                  "ApiGatewayResourceGenerateDashapiDashkey": {
+                    "Type": "AWS::ApiGateway::Resource",
+                    "Properties": {
+                      "ParentId": {
+                        "Fn::GetAtt": [
+                          "ApiGatewayRestApi",
+                          "RootResourceId"
+                        ]
+                      },
+                      "PathPart": "generate-api-key",
+                      "RestApiId": {
+                        "Ref": "ApiGatewayRestApi"
+                      }
                     }
                   },
                   "ApiGatewayResourcePlaces": {
@@ -212,6 +227,52 @@
                         "Ref": "ApiGatewayRestApi"
                       }
                     }
+                  },
+                  "ApiGatewayMethodGenerateDashapiDashkeyPost": {
+                    "Type": "AWS::ApiGateway::Method",
+                    "Properties": {
+                      "HttpMethod": "POST",
+                      "RequestParameters": {},
+                      "ResourceId": {
+                        "Ref": "ApiGatewayResourceGenerateDashapiDashkey"
+                      },
+                      "RestApiId": {
+                        "Ref": "ApiGatewayRestApi"
+                      },
+                      "ApiKeyRequired": "<REDACTED>",
+                      "AuthorizationType": "NONE",
+                      "Integration": {
+                        "IntegrationHttpMethod": "POST",
+                        "Type": "AWS_PROXY",
+                        "Uri": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "arn:",
+                              {
+                                "Ref": "AWS::Partition"
+                              },
+                              ":apigateway:",
+                              {
+                                "Ref": "AWS::Region"
+                              },
+                              ":lambda:path/2015-03-31/functions/",
+                              {
+                                "Fn::GetAtt": [
+                                  "PlacesLambdaFunction",
+                                  "Arn"
+                                ]
+                              },
+                              "/invocations"
+                            ]
+                          ]
+                        }
+                      },
+                      "MethodResponses": []
+                    },
+                    "DependsOn": [
+                      "PlacesLambdaPermissionApiGateway"
+                    ]
                   },
                   "ApiGatewayMethodPlacesGet": {
                     "Type": "AWS::ApiGateway::Method",
@@ -351,7 +412,7 @@
                       "PlacesLambdaPermissionApiGateway"
                     ]
                   },
-                  "ApiGatewayDeployment1734281327378": {
+                  "ApiGatewayDeployment1734547304921": {
                     "Type": "AWS::ApiGateway::Deployment",
                     "Properties": {
                       "RestApiId": {
@@ -360,6 +421,7 @@
                       "StageName": "dev"
                     },
                     "DependsOn": [
+                      "ApiGatewayMethodGenerateDashapiDashkeyPost",
                       "ApiGatewayMethodPlacesGet",
                       "ApiGatewayMethodPlacesPost",
                       "ApiGatewayMethodTestDashdbGet"
@@ -413,7 +475,7 @@
                   "PlacesLambdaFunctionQualifiedArn": {
                     "Description": "Current Lambda function version",
                     "Value": {
-                      "Ref": "PlacesLambdaVersionDewOOSv0RpyPpI60gXO9jSaXU59agbYW9JlMFYMK0"
+                      "Ref": "PlacesLambdaVersionjUoCR7aWMlOSoxeu4rLpWF4jkhkXKzWVEiHsj5D8"
                     },
                     "Export": {
                       "Name": "sls-backend-places-dev-PlacesLambdaFunctionQualifiedArn"
@@ -455,6 +517,13 @@
                 "events": [
                   {
                     "http": {
+                      "path": "generate-api-key",
+                      "method": "post",
+                      "integration": "AWS_PROXY"
+                    }
+                  },
+                  {
+                    "http": {
                       "path": "places",
                       "method": "get",
                       "integration": "AWS_PROXY"
@@ -487,12 +556,12 @@
                 },
                 "name": "backend-places-dev-places",
                 "package": {
-                  "artifact": "/Users/damienlemenager/Desktop/backend-places/.serverless/places.zip"
+                  "artifact": ".serverless/places.zip"
                 },
                 "memory": 1024,
                 "timeout": 6,
                 "runtime": "nodejs18.x",
-                "versionLogicalId": "PlacesLambdaVersionDewOOSv0RpyPpI60gXO9jSaXU59agbYW9JlMFYMK0"
+                "versionLogicalId": "PlacesLambdaVersionjUoCR7aWMlOSoxeu4rLpWF4jkhkXKzWVEiHsj5D8"
               }
             },
             "package": {
@@ -502,7 +571,7 @@
               ],
               "artifactsS3KeyDirname": "serverless/backend-places/dev/code-artifacts",
               "deploymentBucket": "serverless-framework-deployments-eu-west-3-53368366-3b03",
-              "artifactDirectoryName": "serverless/backend-places/dev/1734281334361-2024-12-15T16:48:54.361Z"
+              "artifactDirectoryName": "serverless/backend-places/dev/1734547312030-2024-12-18T18:41:52.030Z"
             }
           },
           "configFileDirPath": "/Users/damienlemenager/Desktop/backend-places",
@@ -642,7 +711,7 @@
                     "Properties": {
                       "Code": {
                         "S3Bucket": "serverless-framework-deployments-eu-west-3-53368366-3b03",
-                        "S3Key": "serverless/backend-places/dev/1734281334361-2024-12-15T16:48:54.361Z/places.zip"
+                        "S3Key": "serverless/backend-places/dev/1734547312030-2024-12-18T18:41:52.030Z/places.zip"
                       },
                       "Handler": "dist/index.handler",
                       "Runtime": "nodejs18.x",
@@ -675,14 +744,14 @@
                       "PlacesLogGroup"
                     ]
                   },
-                  "PlacesLambdaVersionDewOOSv0RpyPpI60gXO9jSaXU59agbYW9JlMFYMK0": {
+                  "PlacesLambdaVersionjUoCR7aWMlOSoxeu4rLpWF4jkhkXKzWVEiHsj5D8": {
                     "Type": "AWS::Lambda::Version",
                     "DeletionPolicy": "Retain",
                     "Properties": {
                       "FunctionName": {
                         "Ref": "PlacesLambdaFunction"
                       },
-                      "CodeSha256": "iXFNnCru1AnMWsDEVqGcGFbaZwWCk7ATzNFLRNMmHoQ="
+                      "CodeSha256": "c9FJqs4Jw7KOuC6ger7kfOCVWmw3hdY/oGVdfK4yuS0="
                     }
                   },
                   "ApiGatewayRestApi": {
@@ -695,6 +764,21 @@
                         ]
                       },
                       "Policy": ""
+                    }
+                  },
+                  "ApiGatewayResourceGenerateDashapiDashkey": {
+                    "Type": "AWS::ApiGateway::Resource",
+                    "Properties": {
+                      "ParentId": {
+                        "Fn::GetAtt": [
+                          "ApiGatewayRestApi",
+                          "RootResourceId"
+                        ]
+                      },
+                      "PathPart": "generate-api-key",
+                      "RestApiId": {
+                        "Ref": "ApiGatewayRestApi"
+                      }
                     }
                   },
                   "ApiGatewayResourcePlaces": {
@@ -726,6 +810,52 @@
                         "Ref": "ApiGatewayRestApi"
                       }
                     }
+                  },
+                  "ApiGatewayMethodGenerateDashapiDashkeyPost": {
+                    "Type": "AWS::ApiGateway::Method",
+                    "Properties": {
+                      "HttpMethod": "POST",
+                      "RequestParameters": {},
+                      "ResourceId": {
+                        "Ref": "ApiGatewayResourceGenerateDashapiDashkey"
+                      },
+                      "RestApiId": {
+                        "Ref": "ApiGatewayRestApi"
+                      },
+                      "ApiKeyRequired": "<REDACTED>",
+                      "AuthorizationType": "NONE",
+                      "Integration": {
+                        "IntegrationHttpMethod": "POST",
+                        "Type": "AWS_PROXY",
+                        "Uri": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "arn:",
+                              {
+                                "Ref": "AWS::Partition"
+                              },
+                              ":apigateway:",
+                              {
+                                "Ref": "AWS::Region"
+                              },
+                              ":lambda:path/2015-03-31/functions/",
+                              {
+                                "Fn::GetAtt": [
+                                  "PlacesLambdaFunction",
+                                  "Arn"
+                                ]
+                              },
+                              "/invocations"
+                            ]
+                          ]
+                        }
+                      },
+                      "MethodResponses": []
+                    },
+                    "DependsOn": [
+                      "PlacesLambdaPermissionApiGateway"
+                    ]
                   },
                   "ApiGatewayMethodPlacesGet": {
                     "Type": "AWS::ApiGateway::Method",
@@ -865,7 +995,7 @@
                       "PlacesLambdaPermissionApiGateway"
                     ]
                   },
-                  "ApiGatewayDeployment1734281327378": {
+                  "ApiGatewayDeployment1734547304921": {
                     "Type": "AWS::ApiGateway::Deployment",
                     "Properties": {
                       "RestApiId": {
@@ -874,6 +1004,7 @@
                       "StageName": "dev"
                     },
                     "DependsOn": [
+                      "ApiGatewayMethodGenerateDashapiDashkeyPost",
                       "ApiGatewayMethodPlacesGet",
                       "ApiGatewayMethodPlacesPost",
                       "ApiGatewayMethodTestDashdbGet"
@@ -927,7 +1058,7 @@
                   "PlacesLambdaFunctionQualifiedArn": {
                     "Description": "Current Lambda function version",
                     "Value": {
-                      "Ref": "PlacesLambdaVersionDewOOSv0RpyPpI60gXO9jSaXU59agbYW9JlMFYMK0"
+                      "Ref": "PlacesLambdaVersionjUoCR7aWMlOSoxeu4rLpWF4jkhkXKzWVEiHsj5D8"
                     },
                     "Export": {
                       "Name": "sls-backend-places-dev-PlacesLambdaFunctionQualifiedArn"
@@ -969,6 +1100,13 @@
                 "events": [
                   {
                     "http": {
+                      "path": "generate-api-key",
+                      "method": "post",
+                      "integration": "AWS_PROXY"
+                    }
+                  },
+                  {
+                    "http": {
                       "path": "places",
                       "method": "get",
                       "integration": "AWS_PROXY"
@@ -1001,12 +1139,12 @@
                 },
                 "name": "backend-places-dev-places",
                 "package": {
-                  "artifact": "/Users/damienlemenager/Desktop/backend-places/.serverless/places.zip"
+                  "artifact": ".serverless/places.zip"
                 },
                 "memory": 1024,
                 "timeout": 6,
                 "runtime": "nodejs18.x",
-                "versionLogicalId": "PlacesLambdaVersionDewOOSv0RpyPpI60gXO9jSaXU59agbYW9JlMFYMK0"
+                "versionLogicalId": "PlacesLambdaVersionjUoCR7aWMlOSoxeu4rLpWF4jkhkXKzWVEiHsj5D8"
               }
             },
             "package": {
@@ -1016,7 +1154,7 @@
               ],
               "artifactsS3KeyDirname": "serverless/backend-places/dev/code-artifacts",
               "deploymentBucket": "serverless-framework-deployments-eu-west-3-53368366-3b03",
-              "artifactDirectoryName": "serverless/backend-places/dev/1734281334361-2024-12-15T16:48:54.361Z"
+              "artifactDirectoryName": "serverless/backend-places/dev/1734547312030-2024-12-18T18:41:52.030Z"
             }
           },
           "configFileDirPath": "/Users/damienlemenager/Desktop/backend-places",
@@ -1157,7 +1295,7 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "serverless-framework-deployments-eu-west-3-53368366-3b03",
-                  "S3Key": "serverless/backend-places/dev/1734281334361-2024-12-15T16:48:54.361Z/places.zip"
+                  "S3Key": "serverless/backend-places/dev/1734547312030-2024-12-18T18:41:52.030Z/places.zip"
                 },
                 "Handler": "dist/index.handler",
                 "Runtime": "nodejs18.x",
@@ -1190,14 +1328,14 @@
                 "PlacesLogGroup"
               ]
             },
-            "PlacesLambdaVersionDewOOSv0RpyPpI60gXO9jSaXU59agbYW9JlMFYMK0": {
+            "PlacesLambdaVersionjUoCR7aWMlOSoxeu4rLpWF4jkhkXKzWVEiHsj5D8": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "PlacesLambdaFunction"
                 },
-                "CodeSha256": "iXFNnCru1AnMWsDEVqGcGFbaZwWCk7ATzNFLRNMmHoQ="
+                "CodeSha256": "c9FJqs4Jw7KOuC6ger7kfOCVWmw3hdY/oGVdfK4yuS0="
               }
             },
             "ApiGatewayRestApi": {
@@ -1210,6 +1348,21 @@
                   ]
                 },
                 "Policy": ""
+              }
+            },
+            "ApiGatewayResourceGenerateDashapiDashkey": {
+              "Type": "AWS::ApiGateway::Resource",
+              "Properties": {
+                "ParentId": {
+                  "Fn::GetAtt": [
+                    "ApiGatewayRestApi",
+                    "RootResourceId"
+                  ]
+                },
+                "PathPart": "generate-api-key",
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                }
               }
             },
             "ApiGatewayResourcePlaces": {
@@ -1241,6 +1394,52 @@
                   "Ref": "ApiGatewayRestApi"
                 }
               }
+            },
+            "ApiGatewayMethodGenerateDashapiDashkeyPost": {
+              "Type": "AWS::ApiGateway::Method",
+              "Properties": {
+                "HttpMethod": "POST",
+                "RequestParameters": {},
+                "ResourceId": {
+                  "Ref": "ApiGatewayResourceGenerateDashapiDashkey"
+                },
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                },
+                "ApiKeyRequired": "<REDACTED>",
+                "AuthorizationType": "NONE",
+                "Integration": {
+                  "IntegrationHttpMethod": "POST",
+                  "Type": "AWS_PROXY",
+                  "Uri": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:",
+                        {
+                          "Ref": "AWS::Partition"
+                        },
+                        ":apigateway:",
+                        {
+                          "Ref": "AWS::Region"
+                        },
+                        ":lambda:path/2015-03-31/functions/",
+                        {
+                          "Fn::GetAtt": [
+                            "PlacesLambdaFunction",
+                            "Arn"
+                          ]
+                        },
+                        "/invocations"
+                      ]
+                    ]
+                  }
+                },
+                "MethodResponses": []
+              },
+              "DependsOn": [
+                "PlacesLambdaPermissionApiGateway"
+              ]
             },
             "ApiGatewayMethodPlacesGet": {
               "Type": "AWS::ApiGateway::Method",
@@ -1380,7 +1579,7 @@
                 "PlacesLambdaPermissionApiGateway"
               ]
             },
-            "ApiGatewayDeployment1734281327378": {
+            "ApiGatewayDeployment1734547304921": {
               "Type": "AWS::ApiGateway::Deployment",
               "Properties": {
                 "RestApiId": {
@@ -1389,6 +1588,7 @@
                 "StageName": "dev"
               },
               "DependsOn": [
+                "ApiGatewayMethodGenerateDashapiDashkeyPost",
                 "ApiGatewayMethodPlacesGet",
                 "ApiGatewayMethodPlacesPost",
                 "ApiGatewayMethodTestDashdbGet"
@@ -1442,7 +1642,7 @@
             "PlacesLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "PlacesLambdaVersionDewOOSv0RpyPpI60gXO9jSaXU59agbYW9JlMFYMK0"
+                "Ref": "PlacesLambdaVersionjUoCR7aWMlOSoxeu4rLpWF4jkhkXKzWVEiHsj5D8"
               },
               "Export": {
                 "Name": "sls-backend-places-dev-PlacesLambdaFunctionQualifiedArn"
@@ -1484,6 +1684,13 @@
           "events": [
             {
               "http": {
+                "path": "generate-api-key",
+                "method": "post",
+                "integration": "AWS_PROXY"
+              }
+            },
+            {
+              "http": {
                 "path": "places",
                 "method": "get",
                 "integration": "AWS_PROXY"
@@ -1516,12 +1723,12 @@
           },
           "name": "backend-places-dev-places",
           "package": {
-            "artifact": "/Users/damienlemenager/Desktop/backend-places/.serverless/places.zip"
+            "artifact": ".serverless/places.zip"
           },
           "memory": 1024,
           "timeout": 6,
           "runtime": "nodejs18.x",
-          "versionLogicalId": "PlacesLambdaVersionDewOOSv0RpyPpI60gXO9jSaXU59agbYW9JlMFYMK0"
+          "versionLogicalId": "PlacesLambdaVersionjUoCR7aWMlOSoxeu4rLpWF4jkhkXKzWVEiHsj5D8"
         }
       },
       "package": {
@@ -1531,17 +1738,17 @@
         ],
         "artifactsS3KeyDirname": "serverless/backend-places/dev/code-artifacts",
         "deploymentBucket": "serverless-framework-deployments-eu-west-3-53368366-3b03",
-        "artifactDirectoryName": "serverless/backend-places/dev/1734281334361-2024-12-15T16:48:54.361Z"
+        "artifactDirectoryName": "serverless/backend-places/dev/1734547312030-2024-12-18T18:41:52.030Z"
       }
     },
-    "serviceRawFile": "service: backend-places  # Nom de ton service\n\nprovider:\n  name: aws\n  runtime: nodejs18.x  # Spécifie la version de Node.js\n  region: eu-west-3  # Choisir la région AWS que tu veux\n  environment:\n    DATABASE_URL: ${env:DATABASE_URL}\n\nfunctions:\n  places:\n    handler: dist/index.handler  # Le handler de la fonction Lambda (index.js et handler exporté)\n    events:\n      - http:\n          path: places\n          method: get  # Pour la route GET /places\n      - http:\n          path: places\n          method: post  # Pour la route POST /places\n      - http:\n          path: test-db\n          method: get  # Pour la route POST /places\n    vpc:\n      securityGroupIds:\n        - sg-0335f2d60ce1230f0  # ID du groupe de sécurité associé à votre RDS\n      subnetIds:\n        - subnet-043546361a20f21c2  # ID des sous-réseaux dans lesquels votre Lambda doit être déployée\n        - subnet-073555d09ec665ca3\n        - subnet-0e59444da0dd72508\n\npackage:\n  individually: true\n  exclude:\n    - node_modules/aws-sdk/**  # Exclure aws-sdk (déjà inclus dans l'environnement Lambda)\n",
+    "serviceRawFile": "service: backend-places  # Nom de ton service\n\nprovider:\n  name: aws\n  runtime: nodejs18.x  # Spécifie la version de Node.js\n  region: eu-west-3  # Choisir la région AWS que tu veux\n  environment:\n    DATABASE_URL: ${env:DATABASE_URL}\n\nfunctions:\n  places:\n    handler: dist/index.handler  # Le handler de la fonction Lambda (index.js et handler exporté)\n    events:\n      - http:\n          path: generate-api-key\n          method: post\n      - http:\n          path: places\n          method: get  # Pour la route GET /places\n      - http:\n          path: places\n          method: post  # Pour la route POST /places\n      - http:\n          path: test-db\n          method: get  # Pour la route POST /places\n    vpc:\n      securityGroupIds:\n        - sg-0335f2d60ce1230f0  # ID du groupe de sécurité associé à votre RDS\n      subnetIds:\n        - subnet-043546361a20f21c2  # ID des sous-réseaux dans lesquels votre Lambda doit être déployée\n        - subnet-073555d09ec665ca3\n        - subnet-0e59444da0dd72508\n\npackage:\n  individually: true\n  exclude:\n    - node_modules/aws-sdk/**  # Exclure aws-sdk (déjà inclus dans l'environnement Lambda)\n",
     "command": [
       "deploy"
     ],
     "options": {},
     "error": null,
     "params": {},
-    "machineId": "9a2fd8d1165216317ed86e7aa401b83f",
+    "machineId": "bcce3481a3f6ec2d808e840493992e82",
     "stage": "dev",
     "accessKeyV2": "<REDACTED>",
     "accessKeyV1": "<REDACTED>",
@@ -1564,18 +1771,18 @@
     "serviceProviderAwsCredentials": "<REDACTED>",
     "serviceProviderAwsAccountId": "897729105435",
     "projectType": "traditional",
-    "versionSf": "4.4.16",
+    "versionSf": "4.4.18",
     "serviceProviderAwsCfStackName": "backend-places-dev",
     "integrations": {},
     "serviceUniqueId": "arn:aws:cloudformation:eu-west-3:897729105435:stack/backend-places-dev/38c8ce30-bad1-11ef-82cc-0eaee090fc49",
     "serviceProviderAwsCfStackId": "arn:aws:cloudformation:eu-west-3:897729105435:stack/backend-places-dev/38c8ce30-bad1-11ef-82cc-0eaee090fc49",
     "serviceProviderAwsCfStackCreated": "2024-12-15T10:42:03.895Z",
-    "serviceProviderAwsCfStackUpdated": "2024-12-15T16:49:04.188Z",
+    "serviceProviderAwsCfStackUpdated": "2024-12-18T18:46:02.659Z",
     "serviceProviderAwsCfStackStatus": "UPDATE_COMPLETE",
     "serviceProviderAwsCfStackOutputs": [
       {
         "OutputKey": "PlacesLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:eu-west-3:897729105435:function:backend-places-dev-places:13",
+        "OutputValue": "arn:aws:lambda:eu-west-3:897729105435:function:backend-places-dev-places:15",
         "Description": "Current Lambda function version",
         "ExportName": "sls-backend-places-dev-PlacesLambdaFunctionQualifiedArn"
       },
